@@ -1,0 +1,112 @@
+// let prevWindow = null;
+let currentWindow = null;
+
+//사이드바 윈도우 객체화
+const leaderboard = document.querySelector('.leaderboard');
+const death_log = document.querySelector('.death_log');
+const notice = document.querySelector('.notice');
+const bulletin_board = document.querySelector('.bulletin_board');
+
+//로고 객체화
+const logo = document.querySelector('.logo_main');
+
+class UiController {
+
+    showWindow(window) {
+        window.style.display = 'block';
+        window.style.opacity = 1;
+        currentWindow = window;
+    }
+
+    hideWindow(window) {
+        window.style.display = 'none';
+        window.style.opacity = 0;
+    }
+
+    slide(window, axis, distance) {
+
+        window.style.display = 'block';
+        window.style.transition = 'transform 1s cubic-bezier(0.77,0,0.175,1)';
+
+        if (axis === 'x') {
+            window.style.transform = `translateX(${distance}px)`;
+        }
+        else if (axis === 'y') {
+            window.style.transform = `translateY(${distance}px)`;
+        }
+    }
+
+    slideWindowsOut() {
+        uic.slide(leaderboard, 'x', -300);
+        uic.slide(death_log, 'x', -300);
+        uic.slide(notice, 'x', 300);
+        uic.slide(bulletin_board, 'x', 300);
+    }
+
+    slideWindowsIn() {
+        uic.slide(leaderboard, 'x', 0);
+        uic.slide(death_log, 'x', 0);
+        uic.slide(notice, 'x', 0);
+        uic.slide(bulletin_board, 'x', 0);
+    }
+
+
+}
+
+const uic = new UiController();
+
+// 시작 버튼
+document.querySelector('.startButton').addEventListener('click', function() {
+    hideStartButton();
+    fadeInWindow(document.querySelector('.center_window'));
+    fadeInWindow(document.querySelector('.login'));
+    uic.slideWindowsOut();
+});
+
+// 로그인
+document.querySelector('.loginButton').addEventListener('click', function() {
+    // alert('아쎄이! 아직 입대하기엔 기합이 부족하다!!');
+})
+
+// 회원가입
+document.querySelector('.signupButton').addEventListener('click', function() {
+    const signup = document.querySelector('.signup');
+    uic.hideWindow(currentWindow);
+    uic.showWindow(signup);
+    uic.slideWindowsIn();
+})
+
+//취소버튼
+document.querySelector('.signup .backButton').addEventListener('click', function() {
+    uic.hideWindow(currentWindow);
+    uic.showWindow(document.querySelector('.login'));
+})
+
+function hideStartButton() {
+    startButton = document.querySelector('.startButton');
+    startButton.style.transition = 'opacity 1s ease-in-out';
+    startButton.style.opacity = 0;
+    setTimeout(() => {
+        startButton.style.display = 'none';
+    }, 1000);
+}
+
+function fadeInWindow(window) {
+    window.style.transition = 'opacity 1s ease-in-out';
+    window.style.opacity = 0;
+    window.style.display = 'block'; 
+    setTimeout(() => {
+        window.style.opacity = 1;
+    }, 20);
+    currentWindow = window;
+}
+
+function fadeOutWindow(window) {
+    window.style.transition = 'opacity 1s ease-in-out';
+    window.style.opacity = 0;
+    setTimeout(() => {
+        window.style.display = 'none';
+    }, 1000);
+}
+
+
