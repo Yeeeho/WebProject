@@ -1,6 +1,12 @@
 // let prevWindow = null;
 let currentWindow = null;
 
+//센터 윈도우 객체화
+const center_window = document.querySelector('.center_window');
+const login_window = document.querySelector('.login');
+const signup_window = document.querySelector('.signup');
+
+
 //사이드바 윈도우 객체화
 const leaderboard = document.querySelector('.leaderboard');
 const death_log = document.querySelector('.death_log');
@@ -8,7 +14,7 @@ const notice = document.querySelector('.notice');
 const bulletin_board = document.querySelector('.bulletin_board');
 
 //로고 객체화
-const logo = document.querySelector('.logo_main');
+const logo_main = document.querySelector('.logo_main');
 
 class UiController {
 
@@ -22,6 +28,25 @@ class UiController {
         window.style.display = 'none';
         window.style.opacity = 0;
     }
+
+    fadeInWindow(window) {
+    window.style.transition = 'opacity 1s ease-in-out';
+    window.style.opacity = 0;
+    window.style.display = 'block'; 
+    setTimeout(() => {
+        window.style.opacity = 1;
+    }, 20);
+    currentWindow = window;
+}
+
+    fadeOutWindow(window) {
+    window.style.transition = 'opacity 1s ease-in-out';
+    window.style.opacity = 0;
+    setTimeout(() => {
+        window.style.display = 'none';
+    }, 1000);
+}
+
 
     slide(window, axis, distance) {
 
@@ -41,6 +66,7 @@ class UiController {
         uic.slide(death_log, 'x', -300);
         uic.slide(notice, 'x', 300);
         uic.slide(bulletin_board, 'x', 300);
+        uic.slide(logo_main, 'y', -300);
     }
 
     slideWindowsIn() {
@@ -48,8 +74,8 @@ class UiController {
         uic.slide(death_log, 'x', 0);
         uic.slide(notice, 'x', 0);
         uic.slide(bulletin_board, 'x', 0);
+        uic.slide(logo_main, 'y', 0);
     }
-
 
 }
 
@@ -58,10 +84,20 @@ const uic = new UiController();
 // 시작 버튼
 document.querySelector('.startButton').addEventListener('click', function() {
     hideStartButton();
-    fadeInWindow(document.querySelector('.center_window'));
-    fadeInWindow(document.querySelector('.login'));
+    uic.showWindow(center_window);
+    uic.fadeInWindow(login_window);
     uic.slideWindowsOut();
 });
+
+//시작버튼 숨기기
+function hideStartButton() {
+    startButton = document.querySelector('.startButton');
+    startButton.style.transition = 'opacity 1s ease-in-out';
+    startButton.style.opacity = 0;
+    setTimeout(() => {
+        startButton.style.display = 'none';
+    }, 1000);
+}
 
 // 로그인
 document.querySelector('.loginButton').addEventListener('click', function() {
@@ -82,31 +118,32 @@ document.querySelector('.signup .backButton').addEventListener('click', function
     uic.showWindow(document.querySelector('.login'));
 })
 
-function hideStartButton() {
-    startButton = document.querySelector('.startButton');
-    startButton.style.transition = 'opacity 1s ease-in-out';
-    startButton.style.opacity = 0;
-    setTimeout(() => {
-        startButton.style.display = 'none';
-    }, 1000);
+function gameStart() {
+    // uic.slideWindowsOut();
+    uic.fadeOutWindow(login_window);
+    uic.fadeOutWindow(center_window);
+
+    //함수에서 직접 플래그를 변경
+    // fetch('set_game_start_false.php', {method : 'POST'});
 }
 
-function fadeInWindow(window) {
-    window.style.transition = 'opacity 1s ease-in-out';
-    window.style.opacity = 0;
-    window.style.display = 'block'; 
-    setTimeout(() => {
-        window.style.opacity = 1;
-    }, 20);
-    currentWindow = window;
-}
+//이벤트 리스너
+window.addEventListener("DOMContentLoaded", function() {
 
-function fadeOutWindow(window) {
-    window.style.transition = 'opacity 1s ease-in-out';
-    window.style.opacity = 0;
-    setTimeout(() => {
-        window.style.display = 'none';
-    }, 1000);
-}
+    // const params = new URLSearchParams(window.location.search)
+    // console.log(params);
+
+    // if (params.get("start") == "1") {
+    //     alert("로그인이 성공했드아");
+    // }
+
+
+
+})
+
+window.addEventListener("DOMContentLoaded", function() {
+
+})
+
 
 

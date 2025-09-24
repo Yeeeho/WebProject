@@ -12,7 +12,7 @@
 
         <!-- 로고 -->
         <div class="logo_main">
-            <img src="Images/DoomLogo.png">
+            <img src="Images/isaygames_logo.png">
         </div>
 
         <div class="logo_small">
@@ -23,24 +23,24 @@
         <div class="center_window">
 
             <!-- 로그인화면 -->
-            <div class="login">
-                <h2>관등성명을 대라 아쎄이!!!</h2>
+            <div class="login box">
+                <h2>로그인</h2><br>
                 <form method="post" action="index.php">    
-                    <input type="text" placeholder="군번을 적어라 아쎄이!!" name="id"><br>
-                    <input type="password" placeholder="Password" name="pw"><br>
-                    <button class="loginButton" type="submit" name="loginButton">악!!</button><br>
+                    <input type="text" placeholder="아이디를 입력해보거라" name="id" class="inputBox"><br>
+                    <input type="password" placeholder="비밀번호가 뭐였더라" name="pw" class="inputBox"><br>
+                    <button class="loginButton" type="submit" name="loginButton">로그인</button><br>
                 </form>
-                <button class="signupButton" type="button">자진입대</button>
+                <button class="signupButton" type="button">자진입대.. 아 아니 회원가입</button>
             </div>
 
             <!-- 회원가입화면 -->
-            <div class="signup">
-                <h2>자진입대를 환영한다 아쎄이!!!</h2>
+            <div class="signup box">
+                <h2>회원가입</h2><br>
                 <form method="post" action="index.php">
-                    <input type="text" placeholder="군번을 적어라 아쎄이!!" name="id_signup"><br>
-                    <input type="password" placeholder="Password" name="pw_signup"><br>
-                    <button class="confirmButton" name="confirmButton">입대한다</button><br>
-                    <button class="backButton" type="button">난 집이 좋다.</button>    
+                    <input type="text" placeholder="아이디를 입력하거라 아이야." name="id_signup" class="inputBox"><br>
+                    <input type="password" placeholder="비밀번호를 입력하거라." name="pw_signup" class="inputBox"><br>
+                    <button class="confirmButton" name="confirmButton">확인</button><br>
+                    <button class="backButton" type="button">뒤로가기</button>    
                 </form> 
             </div>
 
@@ -55,23 +55,24 @@
 
         </div>
 
-        <button class="startButton">해병의 시간이다!!!!!</button>
+        <!-- 시작버튼 -->
+        <button class="startButton">PLAY</button>
 
         <!-- 사이드바 -->
 
-        <div class="leaderboard">
+        <div class="leaderboard box">
             <h2>명예의 전당</h2>
         </div>
 
-        <div class="death_log">
+        <div class="death_log box">
             <h2>단말마들</h2>
         </div>  
 
-        <div class="notice">
+        <div class="notice box box">
             <h2>공지사항</h2>
         </div>
 
-        <div class="bulletin_board">
+        <div class="bulletin_board box">
             <h2>자유게시판</h2>
         </div>
 
@@ -100,17 +101,39 @@ $user = 'root';
 $password = '';
 $database = 'user';
 
+$id_temp = '1234';
+$pw_temp = '1234';
+
 $id = $_POST['id'];
 $pw = $_POST['pw'];
 
+//로그인버튼을 눌렀을 경우
 if (isset($_POST['loginButton'])) {
     
     if ($id == '' || $pw == '') {
-        echo "<script>alert('해병을 기만하지 마라 아쎄이')</script>";
+        echo "<script>alert('입력란이 비었습니다')</script>";
         echo "<script>window.location.href = 'index.php';</script>";
         exit;
     }   
-    echo "<script>alert('로그인 기능은 아직 구현이 안되었다요')</script>";
+    else if ($id == $id_temp && $pw == $pw_temp) {
+
+        //쿼리 파라미터 방식
+        // echo "<script>window.location.href = 'index.php?start=1';</script>";
+
+        //세션 플래그 방식
+        $_SESSION['game_start'] = true;
+        
+    }
+}
+
+// 세션 플래그 관리
+if (isset($_SESSION['game_start']) && $_SESSION['game_start'] == true) {
+    echo "<script>
+        window.addEventListener('DOMContentLoaded', function() {
+            gameStart();    
+        })
+    </script>";
+    $_SESSION['game_start'] = false;
 }
 
 ?>

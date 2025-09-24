@@ -14,18 +14,19 @@ body {
     position: relative;
     width: 100%;
     height: 100vh;
-    background-color: pink;
+    background-color: #1f1f1f;
 }
 
 .logo_main {
     position: absolute;
     text-align: center;
+    margin:auto;
+    left: 0;
+    right: 0;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
+    width: 560px;
     height: 180px;
-    border: solid 1px black;
+    /* border: solid 1px black; */
 }
 
 .logo_main img {
@@ -50,6 +51,7 @@ body {
     /* object-fit: contain; */
 }
 
+/* 센터윈도우 */
 .center_window {
     display: none;
     position: absolute;
@@ -60,15 +62,21 @@ body {
     width: 300px;
     height: 240px;
     transition: opacity 1s ease-in-out;
-    background-color: #fff;
+    border: solid 1px;
 }
 
+/* 로그인화면 */
 .login {
     display: none;
     width: 100%;
     height: 100%;
     z-index: 1;
-    background-color: yellow;
+}
+
+.inputBox {
+    border-radius: 4px;
+    background-color: #1f1f1f;
+    color: white;
 }
 
 .loginButton {
@@ -111,11 +119,11 @@ body {
     margin-top: 10px;
 }
 
+/* 회원가입화면 */
 .signup {
     display: none;
     width: 100%;
     height: 100%;
-    background-color: yellow;
 }
 
 .gameover {
@@ -132,6 +140,7 @@ body {
     background-color: yellow;
 }
 
+/* 시작버튼 */
 .startButton {
     position: absolute;
     top: 500px;
@@ -139,22 +148,35 @@ body {
     transform: translateX(-50%);
     width: 150px;
     height: 50px;
-    background-color: red;
-    color: white;
+    color: rgb(140, 255, 255);
     font-size: 18px;
     cursor: pointer;
     transition: opacity 1s ease-in-out;
+    border-radius: 20px;
+    background-color: #1f1f1f;
+    border:rgb(140, 255, 255) 3px solid;
 }
 
+/* 사이드바 */
 
+.box {
+    border-radius: 4px;
+    padding-top: 10px;
+    text-align: center;
+    color:rgb(140, 255, 255);
+    background-color: rgb(40, 130, 150);
+    border:rgb(140, 255, 255) 3px solid;
+    box-shadow: inset 0 0 20px rgb(140, 244, 251);
+    box-shadow: 0 0 10px rgb(140, 244, 251);
+}
 .leaderboard {
     position: absolute;
     top: 20px;
     left: 20px;
     width: 200px;
     height: 400px;
-    background-color: #fff;
 }
+
 
 .death_log {
     position: absolute;
@@ -162,13 +184,8 @@ body {
     left: 20px;
     width: 200px;
     height: 400px;
-    background-color: #fff;
 }
 
-.slideLeft {
-    position: absolute;
-    transform: translateX(-300px);
-}
 
 .notice {
     position: absolute;
@@ -176,7 +193,6 @@ body {
     right: 20px;
     width: 200px;
     height: 400px;
-    background-color: #fff;
 }
 
 .bulletin_board {
@@ -185,8 +201,12 @@ body {
     right: 20px;
     width: 200px;
     height: 400px;
-    background-color: #fff;
 } 
+
+.slideLeft {
+    position: absolute;
+    transform: translateX(-300px);
+}
 
 footer {
     width: 600px;
