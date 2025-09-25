@@ -62,61 +62,90 @@ body {
     width: 300px;
     height: 240px;
     transition: opacity 1s ease-in-out;
-    border: solid 1px;
+    /* border: solid 1px; */
 }
 
 /* 로그인화면 */
 .login {
+    position:relative;
     display: none;
     width: 100%;
     height: 100%;
     z-index: 1;
+    color:#fff;
 }
 
 .inputBox {
-    border-radius: 4px;
-    background-color: #1f1f1f;
-    color: white;
+    text-align:left;
+    margin-top: 20px;
+    height: 40px;
+    width: 300px;
+    color: #fff;
+    font-size: 16px;
+    background-color: rgb(40, 130, 150);
+    border-radius: 10px;
+    border:rgb(140, 255, 255) 2px solid;
+    box-shadow: 0 0 10px rgb(140, 244, 251);
+}
+
+.inputBox::placeholder {
+    font-size: 16px;
+    color:rgb(140, 244, 251);
 }
 
 .loginButton {
+    position:absolute;
+    text-align:center;
+    cursor: pointer;
+    left: 10px;
+    bottom: 10px;
     width: 80px;
     height: 30px;
-    background-color: #4CAF50;
-    color: white;
     font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
+    color: white;
+    background-color: #1f1f1f;
+    border-radius: 2px;
+    border:rgb(140, 255, 255) 3px solid;
 }
 
 .signupButton {
+    position:absolute;
+    text-align:center;
+    cursor: pointer;
+    right: 10px;
+    bottom: 10px;
     width: 80px;
     height: 30px;
-    background-color: #008CBA;
-    color: white;
     font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
+    color: white;
+    background-color: rgb(40, 130, 150);
+    border-radius: 2px;
+    border:rgb(140, 255, 255) 3px solid;
+
 }
 
 .confirmButton {
     width: 80px;
     height: 30px;
-    background-color: #4CAF50;
-    color: white;
     font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
+    color: white;
+    background-color: rgb(40, 130, 150);
+    border-radius: 2px;
+    border:rgb(140, 255, 255) 3px solid;
 }
 
 .backButton {
     width: 80px;
     height: 30px;
-    background-color: #f44336;
-    color: white;
     font-size: 12px;
     cursor: pointer;
     margin-top: 10px;
+    color: white;
+    background-color: #2f2f2f;
+    border-radius: 2px;
+    border:rgb(255, 140, 255) 3px solid;
 }
 
 /* 회원가입화면 */
@@ -124,6 +153,7 @@ body {
     display: none;
     width: 100%;
     height: 100%;
+    color:#fff;
 }
 
 .gameover {
@@ -166,7 +196,7 @@ body {
     color:rgb(140, 255, 255);
     background-color: rgb(40, 130, 150);
     border:rgb(140, 255, 255) 3px solid;
-    box-shadow: inset 0 0 20px rgb(140, 244, 251);
+    /* box-shadow: inset 0 0 20px rgb(140, 244, 251); */
     box-shadow: 0 0 10px rgb(140, 244, 251);
 }
 .leaderboard {
@@ -209,15 +239,15 @@ body {
 }
 
 footer {
+    position: fixed;
     width: 600px;
     height: 40px;
-    background-color: #333;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 0;
+    /* background-color: #333; */
+    color: white;
+    display: flex;
+    align-items:center;
+    justify-content:center;
 }

@@ -127,23 +127,51 @@ function gameStart() {
     // fetch('set_game_start_false.php', {method : 'POST'});
 }
 
-//이벤트 리스너
-window.addEventListener("DOMContentLoaded", function() {
+//AJAX
+document.querySelector('.loginButton').addEventListener('click', function(e) {
 
-    // const params = new URLSearchParams(window.location.search)
-    // console.log(params);
+    e.preventDefault();
 
-    // if (params.get("start") == "1") {
-    //     alert("로그인이 성공했드아");
-    // }
+    const formData = new FormData(document.querySelector('#loginForm'));
+    formData.append('loginButton','1');
+
+    fetch('login.php', {
+        method: 'POST',
+        body: formData
+    }) 
+    .then(res => res.json())
+    .then(
+        data => {
+            alert(data.message);
+        })
+    .catch(err => {
+        alert(err);
+        console.log(err);
+    });
+
+});
 
 
 
-})
 
-window.addEventListener("DOMContentLoaded", function() {
 
-})
+
+
+
+
+
+
+
+// //이벤트 리스너
+// window.addEventListener("DOMContentLoaded", function() {
+//     // const params = new URLSearchParams(window.location.search)
+//     // console.log(params);
+
+//     // if (params.get("start") == "1") {
+//     //     alert("로그인이 성공했드아");
+//     // }
+// })
+
 
 
 
