@@ -113,7 +113,7 @@ document.querySelector('.signupButton').addEventListener('click', function() {
 })
 
 //취소버튼
-document.querySelector('.signup .backButton').addEventListener('click', function() {
+document.querySelector('.backButton_signup').addEventListener('click', function() {
     uic.hideWindow(currentWindow);
     uic.showWindow(document.querySelector('.login'));
 })
@@ -128,11 +128,12 @@ function gameStart() {
 }
 
 //AJAX
+//로그인 파트
 document.querySelector('.loginButton').addEventListener('click', function(e) {
 
     e.preventDefault();
 
-    const formData = new FormData(document.querySelector('#loginForm'));
+    let formData = new FormData(document.querySelector('#loginForm'));
     formData.append('loginButton','1');
 
     fetch('login.php', {
@@ -144,6 +145,29 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
         data => {
             alert(data.message);
         })
+    .catch(err => {
+        alert(err);
+        console.log(err);
+    });
+
+});
+
+// 회원가입 파트
+document.querySelector('.confirmButton_signup').addEventListener('click', function(e) {
+
+    e.preventDefault();
+
+    let formData = new FormData(document.querySelector('#signupForm'));
+    formData.append('confirmButton_signup','1');
+
+    fetch('login.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+    })
     .catch(err => {
         alert(err);
         console.log(err);

@@ -10,16 +10,16 @@ $database = 'user';
 $id_temp = '1234';
 $pw_temp = '1234';
 
-$id = $_POST['id'];
-$pw = $_POST['pw'];
-
 header('Content-Type: application/json; charset=utf-8');
 
-//
+//로그인
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if(isset($_POST['loginButton']) && $_POST['loginButton'] == 1) {
-        // echo json_encode(['message' => '당신은 로그인 버튼을 눌렀습니다.']);
+        
+        $id = $_POST['id'];
+        $pw = $_POST['pw'];
+
         if ($id == '' || $pw == '') {
             
             echo json_encode(['message' => '입력란이 비었습니다.']);
@@ -40,13 +40,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['message' => '로그인 정보를 받지 못했습니다.']);
         exit;
     }
-    else {
-        echo json_encode(['message' => '로그인 버튼의 정보를 받지 못했습니다.']);
+    
+    //회원가입
+    else if(isset($_POST['confirmButton_signup']) && $_POST['confirmButton_signup'] == 1) {
+
+        $id_signup = $_POST['id_signup'];
+        $pw_signup = $_POST['pw_signup'];
+
+        echo json_encode(['message' => '1234']);
         exit;
     }
-
-    // else if($_POST['signupButton'])
-
+    
+    else {
+        echo json_encode(['message' => '정보를 받지 못했습니다.']);
+        exit;
+    }
 }
 
 echo json_encode(['message' => '유효한 전송 방식이 아닙니다.']);
