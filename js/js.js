@@ -16,6 +16,7 @@ const bulletin_board = document.querySelector('.bulletin_board');
 //로고 객체화
 const logo_main = document.querySelector('.logo_main');
 
+//Ui 동작 클래스
 class UiController {
 
     showWindow(window) {
@@ -86,7 +87,6 @@ document.querySelector('.startButton').addEventListener('click', function() {
     hideStartButton();
     uic.showWindow(center_window);
     uic.fadeInWindow(login_window);
-    uic.slideWindowsOut();
 });
 
 //시작버튼 숨기기
@@ -109,7 +109,6 @@ document.querySelector('.signupButton').addEventListener('click', function() {
     const signup = document.querySelector('.signup');
     uic.hideWindow(currentWindow);
     uic.showWindow(signup);
-    uic.slideWindowsIn();
 })
 
 //취소버튼
@@ -144,6 +143,12 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
     .then(
         data => {
             alert(data.message);
+            //로그인 성공
+            if (data.loginSuccess == 'true') {
+                uic.fadeOutWindow(login_window);
+                uic.fadeOutWindow(center_window);
+                uic.slideWindowsOut();
+            }
         })
     .catch(err => {
         alert(err);

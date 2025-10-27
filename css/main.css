@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     border: none;
+    z-index: 2;
 }
 body {
     font-family: Arial, sans-serif;
@@ -15,6 +16,13 @@ body {
     width: 100%;
     height: 100vh;
     background-color: #1f1f1f;
+}
+
+#gameCanvas {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
 .logo_main {
@@ -125,8 +133,11 @@ body {
 }
 
 .confirmButton_signup {
+    position:absolute;
     width: 80px;
     height: 30px;
+    right: 10px;
+    bottom: 10px;
     font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
@@ -137,9 +148,12 @@ body {
 }
 
 .backButton_signup {
+    position:absolute;
     width: 80px;
     height: 30px;
-    font-size: 12px;
+    left: 10px;
+    bottom: 10px;
+    font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
     color: white;

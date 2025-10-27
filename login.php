@@ -28,7 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         else if ($id == $id_temp && $pw == $pw_temp) {
             
-            echo json_encode(['message' => '로그인 기능은 준비중입니다.']);
+            echo json_encode([
+                'message' => '로그인에 성공했다.',
+                'loginSuccess' => 'true'
+            ]);
             exit;
         }
     
@@ -47,7 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_signup = $_POST['id_signup'];
         $pw_signup = $_POST['pw_signup'];
 
-        echo json_encode(['message' => '1234']);
+        if($id_signup == '' || $pw_signup == '') {
+            echo json_encode(['message' => '입력란이 비었습니다.']);
+            exit;
+        }
+
+        echo json_encode(['message' => '회원가입 기능은 준비중입니다.']);
         exit;
     }
     
