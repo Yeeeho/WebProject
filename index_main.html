@@ -87,24 +87,32 @@
         
     <footer>
         <p>© 2025 JUMPGAME. All rights reserved.</p>&nbsp
-        <p>Contact: 01049003347</p>&nbsp
+        <p>Contact: 01012341234</p>&nbsp
         <p>Address: 어딘가</p>
     </footer>
     <script src="JumpGame_build/Build/JumpGame_build.loader.js"></script>
     <script>
-    createUnityInstance(document.querySelector("#gameCanvas"), {
-    dataUrl: "JumpGame_build/Build/JumpGame_build.data",
-    frameworkUrl: "JumpGame_build/Build/JumpGame_build.framework.js",
-    codeUrl: "JumpGame_build/Build/JumpGame_build.wasm",
-    streamingAssetsUrl: "StreamingAssets", // StreamingAssets가 있다면 이것도 경로 수정
-    companyName: "Yihos",
-    productName: "Yiho",
-    productVersion: "1.0",
-    }).then((unityInstance) => {
-    // 게임 로딩 완료 후 실행할 코드 (선택 사항)
-    }).catch((message) => {
-    console.error(message);
-    });
+    isLoggedIn = false;
+    document.querySelector('.startButton').addEventListener('click', function() {
+
+        if (isLoggedIn == false) {
+            return;
+        } 
+
+        createUnityInstance(document.querySelector("#gameCanvas"), {
+        dataUrl: "JumpGame_build/Build/JumpGame_build.data",
+        frameworkUrl: "JumpGame_build/Build/JumpGame_build.framework.js",
+        codeUrl: "JumpGame_build/Build/JumpGame_build.wasm",
+        streamingAssetsUrl: "StreamingAssets", // StreamingAssets가 있다면 이것도 경로 수정
+        companyName: "Yihos",
+        productName: "Yiho",
+        productVersion: "1.0",
+        }).then((unityInstance) => {
+        // 게임 로딩 완료 후 실행할 코드 (선택 사항)
+        }).catch((message) => {
+        console.error(message);
+        });
+    })
     </script>
 </body>
 </html>

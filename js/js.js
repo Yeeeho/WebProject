@@ -1,10 +1,13 @@
 // let prevWindow = null;
 let currentWindow = null;
 
+let isLoggedIn = false;
+
 //센터 윈도우 객체화
 const center_window = document.querySelector('.center_window');
 const login_window = document.querySelector('.login');
 const signup_window = document.querySelector('.signup');
+const startButton = document.querySelector('.startButton');
 
 
 //사이드바 윈도우 객체화
@@ -38,7 +41,7 @@ class UiController {
         window.style.opacity = 1;
     }, 20);
     currentWindow = window;
-}
+    }
 
     fadeOutWindow(window) {
     window.style.transition = 'opacity 1s ease-in-out';
@@ -46,7 +49,7 @@ class UiController {
     setTimeout(() => {
         window.style.display = 'none';
     }, 1000);
-}
+    }   
 
 
     slide(window, axis, distance) {
@@ -84,27 +87,25 @@ const uic = new UiController();
 
 // 시작 버튼
 document.querySelector('.startButton').addEventListener('click', function() {
-    hideStartButton();
-    uic.showWindow(center_window);
-    uic.fadeInWindow(login_window);
+
+    if (isLoggedIn == false) {
+        uic.fadeOutWindow(startButton);
+        uic.showWindow(center_window);
+        uic.fadeInWindow(login_window);
+    }
+    else {
+        uic.slideWindowsOut();
+        uic.hideWindow(startButton);
+    }
+
 });
 
-//시작버튼 숨기기
-function hideStartButton() {
-    startButton = document.querySelector('.startButton');
-    startButton.style.transition = 'opacity 1s ease-in-out';
-    startButton.style.opacity = 0;
-    setTimeout(() => {
-        startButton.style.display = 'none';
-    }, 1000);
-}
-
-// 로그인
+// 로그인 동작
 document.querySelector('.loginButton').addEventListener('click', function() {
     // alert('아쎄이! 아직 입대하기엔 기합이 부족하다!!');
 })
 
-// 회원가입
+// 회원가입 동작
 document.querySelector('.signupButton').addEventListener('click', function() {
     const signup = document.querySelector('.signup');
     uic.hideWindow(currentWindow);
@@ -117,20 +118,11 @@ document.querySelector('.backButton_signup').addEventListener('click', function(
     uic.showWindow(document.querySelector('.login'));
 })
 
-function gameStart() {
-    // uic.slideWindowsOut();
-    uic.fadeOutWindow(login_window);
-    uic.fadeOutWindow(center_window);
-
-    //함수에서 직접 플래그를 변경
-    // fetch('set_game_start_false.php', {method : 'POST'});
-}
-
 //AJAX
-//로그인 파트
+//로그인 
 document.querySelector('.loginButton').addEventListener('click', function(e) {
 
-    e.preventDefault();
+    e.preventDefault(e);
 
     let formData = new FormData(document.querySelector('#loginForm'));
     formData.append('loginButton','1');
@@ -143,11 +135,13 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
     .then(
         data => {
             alert(data.message);
+            console.log(data);
             //로그인 성공
             if (data.loginSuccess == 'true') {
                 uic.fadeOutWindow(login_window);
                 uic.fadeOutWindow(center_window);
-                uic.slideWindowsOut();
+                uic.showWindow(startButton)
+                isLoggedIn = true;
             }
         })
     .catch(err => {
@@ -160,7 +154,7 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
 // 회원가입 파트
 document.querySelector('.confirmButton_signup').addEventListener('click', function(e) {
 
-    e.preventDefault();
+    e.preventDefault(e);
 
     let formData = new FormData(document.querySelector('#signupForm'));
     formData.append('confirmButton_signup','1');
@@ -172,6 +166,11 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
     .then(res => res.json())
     .then(data => {
         alert(data.message);
+        //회원가입 성공시
+        if (data.signupSuccess) {
+            uic.hideWindow(signup_window);
+            uic.showWindow(login_window);
+        }
     })
     .catch(err => {
         alert(err);
