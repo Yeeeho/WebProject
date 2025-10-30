@@ -190,6 +190,7 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
 
 
 
+
 // //이벤트 리스너
 // window.addEventListener("DOMContentLoaded", function() {
 //     // const params = new URLSearchParams(window.location.search)
