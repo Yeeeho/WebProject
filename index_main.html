@@ -45,9 +45,18 @@
                 </form> 
             </div>
 
+            <!-- 게임오버화면 -->
             <div class="gameover">
-                <h2>GAME OVER</h2>
-                <button onclick="restartGame()">Restart</button>
+                <br>
+                <h2>GAME OVER</h2><br>
+                <h2 style="display : inline">점수: </h2><h2 style="display:inline" id="score_gameover">score</h2>
+                <h2></h2><br><br>
+                <h4>당신은 죽기 전에 이런 말을 남깁니다...</h4>
+                <form method="post" action="login.php" id="gameoverForm">
+                    <input type="text" name="dyingMessage" class="inputBox inputBox_dying">
+                    <button class="confirmButton_gameover" type="submit" name="confirmButton_gameover">편안히 잠들다</button>
+                </form>
+
             </div>
 
             <div class="settings">
@@ -108,12 +117,14 @@
         productName: "Yiho",
         productVersion: "1.0",
         }).then((unityInstance) => {
-        // 게임 로딩 완료 후 실행할 코드 (선택 사항)
+            // 게임 로딩 완료 후 실행할 코드 (선택 사항)
+            gameOver(unityInstance);
 
         }).catch((message) => {
         console.error(message);
         });
-    })
+    });
+
     </script>
 </body>
 </html>

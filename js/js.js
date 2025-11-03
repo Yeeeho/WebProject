@@ -7,6 +7,7 @@ let isLoggedIn = false;
 const center_window = document.querySelector('.center_window');
 const login_window = document.querySelector('.login');
 const signup_window = document.querySelector('.signup');
+const gameover_window = document.querySelector('.gameover')
 const startButton = document.querySelector('.startButton');
 
 
@@ -179,6 +180,52 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
 
 });
 
+//다잉메시지와 점수 submit
+document.querySelector('.confirmButton_gameover').addEventListener('click', function(e) {
+
+    e.preventDefault();
+
+    let formData = new FormData(document.querySelector('#gameoverForm'));
+    formData.append('confirmButton_gameover', '1');
+
+    fetch('ranking.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("다잉메시지: " + data.message);
+        uic.fadeOutWindow(gameover_window);
+        uic.fadeOutWindow(center_window);
+        uic.fadeInWindow(startButton);
+    })
+    .catch(err => {
+        alert(err);
+    })
+
+});
+
+//게임오버 이벤트리스너(jslib에서 가져옴)
+function gameOver(unityInstance) {
+    document.addEventListener("unityGameStatus", function() {
+    
+        console.log("eventListener -> unityGameStatus read");
+        if (window.isGameOver == true) {
+            console.log("eventListener -> Game Over");
+            unityInstance.Quit();
+            uic.slideWindowsIn();
+            //게임오버 화면 출력
+            uic.fadeInWindow(center_window);
+            uic.fadeInWindow(gameover_window);
+            //현재점수 출력
+            let score_go = document.querySelector('#score_gameover');
+            score_go.textContent = window.gameScore;
+
+
+            window.isGameOver == false;
+        }
+    });
+}
 
 
 
