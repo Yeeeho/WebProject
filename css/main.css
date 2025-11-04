@@ -246,6 +246,7 @@ body {
     /* box-shadow: inset 0 0 20px rgb(140, 244, 251); */
     box-shadow: 0 0 10px rgb(140, 244, 251);
 }
+
 .leaderboard {
     position: absolute;
     top: 20px;
@@ -253,6 +254,7 @@ body {
     width: 200px;
     height: 400px;
 }
+
 
 
 .death_log {
@@ -279,6 +281,11 @@ body {
     width: 200px;
     height: 400px;
 } 
+
+.sb_table td {
+    font-size: 16px;
+    height: 30px;
+}
 
 .slideLeft {
     position: absolute;

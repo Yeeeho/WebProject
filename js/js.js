@@ -103,7 +103,7 @@ document.querySelector('.startButton').addEventListener('click', function() {
 
 // 로그인 동작
 document.querySelector('.loginButton').addEventListener('click', function() {
-    // alert('아쎄이! 아직 입대하기엔 기합이 부족하다!!');
+    
 })
 
 // 회원가입 동작
@@ -122,8 +122,16 @@ document.querySelector('.backButton_signup').addEventListener('click', function(
 //AJAX
 //로그인 
 document.querySelector('.loginButton').addEventListener('click', function(e) {
-
+    //기존 submit방식을 차단해서 새로고침 방지
     e.preventDefault(e);
+
+    let id = document.querySelector('#loginForm').id.value;
+    let pw = document.querySelector('#loginForm').pw.value;
+    //유효성검사 함수가 거짓을 반환하면 함수를 실행하지 않음
+    if (!validate(id, pw)) {
+        alert("Eventlistener -> invalid");
+        return;
+    }
 
     let formData = new FormData(document.querySelector('#loginForm'));
     formData.append('loginButton','1');
@@ -156,6 +164,15 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
 document.querySelector('.confirmButton_signup').addEventListener('click', function(e) {
 
     e.preventDefault(e);
+
+    let id = document.signupForm.id_signup.value;
+    let pw = document.signupForm.pw_signup.value;
+    //유효성 검사 
+    if (!validate(id, pw)) {
+        alert("Eventlistener -> invalid");
+        return;
+    }
+ 
 
     let formData = new FormData(document.querySelector('#signupForm'));
     formData.append('confirmButton_signup','1');
@@ -205,7 +222,7 @@ document.querySelector('.confirmButton_gameover').addEventListener('click', func
 
 });
 
-//게임오버 이벤트리스너(jslib에서 가져옴)
+//게임오버 이벤트리스너(jslib에서 가져옴) 함수
 function gameOver(unityInstance) {
     document.addEventListener("unityGameStatus", function() {
     
@@ -227,7 +244,43 @@ function gameOver(unityInstance) {
     });
 }
 
+//유효성 검사 함수
+function validate(id, pw) {
+    
+    if (id.length == 0 || pw.length == 0) {
+        alert("입력란이 비었습니다.");
+        return false;
+    }
 
+    if (id.length > 12 || id.length < 4) {
+        alert("아이디는 4자 이상 12자 이내로 작성해야 합니다.");
+        return false;       
+    }
+
+    if (!isNaN(id[0])) {
+        alert("아이디는 숫자로 시작해선 안됩니다.");
+        return false;
+    }
+
+    //check if id[i] is number or alphabet
+    for (i = 0; i < id.length; i++) {
+        if (id[i] >= 'a' && id[i] <= 'z') {} //pass
+        else if (id[i] >= 'A' && id[i] <= 'Z') {} //pass
+        else if (id[i] >= '0' && id[i] <= '9') {} //pass
+        else {
+            alert("아이디는 영문 대소문자나 숫자로 이루어져야 합니다.");
+            return false;
+        }
+    }
+
+    if (pw.length > 20 || pw.length < 10) {
+        alert("비밀번호는 10자 이상 20자 이하로 작성해야 합니다.")
+        return false;
+    }
+
+    //모든 조건을 통과시 참을 반환
+    return true;
+}
 
 
 

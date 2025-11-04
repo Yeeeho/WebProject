@@ -32,16 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $id = $_POST['id'];
         $pw = $_POST['pw'];
-
-        //입력란이 공란일 경우
-        if ($id == '' || $pw == '') {
-            
-            echo json_encode(['message' => '입력란이 비었습니다.']);
-            exit;
-        }   
         
         //입력란에 무언가 있을 경우
-        else if ($id != '' && $pw != '') {
+        if ($id != '' && $pw != '') {
         
             //데이터베이스에서 정보 대조
             $stmt = $pdo -> prepare("select id, pw from user where id = ?");
@@ -94,11 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_signup = $_POST['id_signup'];
         $pw_signup = $_POST['pw_signup'];
         
-        if($id_signup == '' || $pw_signup == '') {
-            echo json_encode(['message' => '입력란이 비었습니다.']);
-            exit;
-        }
-        //입력란에 뭐라도 있으면 pass하고 db와의 데이터 대조 시작
 
         //아이디가 중복될 경우 취소하는 로직
         try {

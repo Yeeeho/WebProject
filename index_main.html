@@ -37,7 +37,7 @@
             <!-- 회원가입화면 -->
             <div class="signup">
 
-                <form method="post" action="login.php" id=signupForm>
+                <form method="post" action="login.php" id=signupForm name="signupForm">
                     <input type="text" placeholder="사용할 아이디를 입력하십시오." name="id_signup" class="inputBox"><br>
                     <input type="password" placeholder="사용할 비밀번호를 입력하십시오." name="pw_signup" class="inputBox"><br>
                     <button class="confirmButton_signup" type="submit" name="confirmButton_signup" value="1">확인</button><br>
@@ -72,14 +72,41 @@
 
         <div class="leaderboard box">
             <h2>명예의 전당</h2>
+            <table width="100%" id = "lb_table" class="sb_table">
+                <tr><td>1st</td><td>username</td><td>score</td></tr>
+                <tr><td>2nd</td><td></td><td></td></tr>
+                <tr><td>3rd</td><td></td><td></td></tr>
+                <tr><td>4th</td><td></td><td></td></tr>
+                <tr><td>5th</td><td></td><td></td></tr>
+                <tr><td>6th</td><td></td><td></td></tr>
+                <tr><td>7th</td><td></td><td></td></tr>
+                <tr><td>8th</td><td></td><td></td></tr>
+                <tr><td>9th</td><td></td><td></td></tr>
+                <tr><td>10th</td><td></td><td></td></tr>
+            </table>
         </div>
 
         <div class="death_log box">
             <h2>단말마들</h2>
+            <table width="100%" class="sb_table">
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+                <tr><td>message</td></tr>
+            </table> 
         </div>  
 
         <div class="notice box box">
             <h2>공지사항</h2>
+            <div text-align="left">
+                <p>content</p>
+            </div>
         </div>
 
         <div class="bulletin_board box">
