@@ -1,24 +1,32 @@
 // let prevWindow = null;
 let currentWindow = null;
 
+//js에서 로그인 여부를 확인하기 위한 플래그 변수
 let isLoggedIn = false;
 
 //센터 윈도우 객체화
 const center_window = document.querySelector('.center_window');
 const login_window = document.querySelector('.login');
 const signup_window = document.querySelector('.signup');
-const gameover_window = document.querySelector('.gameover')
+const gameover_window = document.querySelector('.gameover');
 const startButton = document.querySelector('.startButton');
-
+const logoutButton = document.querySelector('#logout');
 
 //사이드바 윈도우 객체화
 const leaderboard = document.querySelector('.leaderboard');
 const death_log = document.querySelector('.death_log');
 const notice = document.querySelector('.notice');
-const bulletin_board = document.querySelector('.bulletin_board');
+const misc_board = document.querySelector('.misc_board');
+const site_card = document.querySelector('.site_card');
+//동적 할당 텍스트
+const profile_id = document.querySelector('#profile_id');
+const profile_hs = document.querySelector('#profile_hs');
 
 //로고 객체화
 const logo_main = document.querySelector('.logo_main');
+
+//기타 친구들
+const message1 = document.querySelector('#message_main');
 
 //Ui 동작 클래스
 class UiController {
@@ -70,7 +78,8 @@ class UiController {
         uic.slide(leaderboard, 'x', -300);
         uic.slide(death_log, 'x', -300);
         uic.slide(notice, 'x', 300);
-        uic.slide(bulletin_board, 'x', 300);
+        uic.slide(misc_board, 'x', 300);
+        uic.slide(site_card, 'x', 300);
         uic.slide(logo_main, 'y', -300);
     }
 
@@ -78,7 +87,8 @@ class UiController {
         uic.slide(leaderboard, 'x', 0);
         uic.slide(death_log, 'x', 0);
         uic.slide(notice, 'x', 0);
-        uic.slide(bulletin_board, 'x', 0);
+        uic.slide(misc_board, 'x', 0);
+        uic.slide(site_card, 'x', 0);
         uic.slide(logo_main, 'y', 0);
     }
 
@@ -86,25 +96,58 @@ class UiController {
 
 const uic = new UiController();
 
-// 시작 버튼
-document.querySelector('.startButton').addEventListener('click', function() {
+//페이지 로드후 실행되는 부분
+checkSession();
 
-    if (isLoggedIn == false) {
-        uic.fadeOutWindow(startButton);
-        uic.showWindow(center_window);
-        uic.fadeInWindow(login_window);
-    }
-    else {
-        uic.slideWindowsOut();
-        uic.hideWindow(startButton);
-    }
+// 시작 버튼 클릭
+startButton.addEventListener('click', function() {
+
+    const formData = new FormData();
+    formData.append('startButton', 'true');
+
+    fetch('login.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data.message);
+        if(data.loginSuccess == 'true') {
+            isLoggedIn = true;
+        }
+        if (isLoggedIn == false) {
+            uic.fadeOutWindow(startButton);
+            uic.showWindow(center_window);
+            uic.fadeInWindow(login_window);
+        }
+        else {
+            uic.slideWindowsOut();
+            uic.hideWindow(startButton);
+            startGame();
+        }
+    })
+
 
 });
 
-// 로그인 동작
-document.querySelector('.loginButton').addEventListener('click', function() {
-    
-})
+//게임 시작 함수
+function startGame() {
+    createUnityInstance(document.querySelector("#gameCanvas"), {
+    dataUrl: "JumpGame_build/Build/JumpGame_build.data",
+    frameworkUrl: "JumpGame_build/Build/JumpGame_build.framework.js",
+    codeUrl: "JumpGame_build/Build/JumpGame_build.wasm",
+    streamingAssetsUrl: "StreamingAssets", // StreamingAssets가 있다면 이것도 경로 수정
+    companyName: "Yihos",
+    productName: "Yiho",
+    productVersion: "1.0",
+    }).then((unityInstance) => {
+        // 게임 로딩 완료 후 실행할 코드 (선택 사항)
+        gameOver(unityInstance);
+
+    }).catch((message) => {
+    console.error(message);
+    });
+}
 
 // 회원가입 동작
 document.querySelector('.signupButton').addEventListener('click', function() {
@@ -157,6 +200,47 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
         alert(err);
         console.log(err);
     });
+});
+
+//페이지가 로드될때 세션을 검사하는 함수
+function checkSession() {
+    let formData = new FormData();
+    formData.append('checkSession','true') 
+
+    fetch('login.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data.message);
+        if(data.loginSuccess == 'true') {
+            isLoggedIn = true;
+            profile_id.textContent = "사용자: " + data.id;
+            profile_id.style.display = 'block';
+            profile_hs.textContent = "HISCORE: " + data.hs;
+            profile_hs.style.display = 'block';
+        }
+    });
+}
+
+//로그아웃
+logoutButton.addEventListener('click', function(e) {
+
+    const formData = new FormData();
+    formData.append('logoutButton', 'true');
+
+    fetch('logout.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(err => {
+        alert(err);
+    });
 
 });
 
@@ -183,11 +267,16 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
     })
     .then(res => res.json())
     .then(data => {
-        alert(data.message);
         //회원가입 성공시
+        alert(data.message);
         if (data.signupSuccess) {
             uic.hideWindow(signup_window);
             uic.showWindow(login_window);
+            document.getElementById('loginForm').id.value = "";
+            document.getElementById('loginForm').pw.value = "";
+            document.getElementById('signupForm').id_signup.value = "";
+            document.getElementById('signupForm').pw_signup.value = "";
+
         }
     })
     .catch(err => {
@@ -251,24 +340,29 @@ function validate(id, pw) {
         alert("입력란이 비었습니다.");
         return false;
     }
-
     if (id.length > 12 || id.length < 4) {
         alert("아이디는 4자 이상 12자 이내로 작성해야 합니다.");
         return false;       
     }
-
     if (!isNaN(id[0])) {
         alert("아이디는 숫자로 시작해선 안됩니다.");
         return false;
     }
-
     //check if id[i] is number or alphabet
     for (i = 0; i < id.length; i++) {
         if (id[i] >= 'a' && id[i] <= 'z') {} //pass
         else if (id[i] >= 'A' && id[i] <= 'Z') {} //pass
         else if (id[i] >= '0' && id[i] <= '9') {} //pass
         else {
-            alert("아이디는 영문 대소문자나 숫자로 이루어져야 합니다.");
+            alert("아이디는 영문 대소문자나 숫자로 이루어져야 하며, 공백이 없어야 합니다.");
+            return false;
+        }
+    }
+
+    //check pw[i]
+    for (i = 0; i < pw.length; i++) {
+        if(pw[i] == " ") {
+            alert("비밀번호에 공백이 들어가면 안됩니다.");
             return false;
         }
     }
@@ -281,7 +375,6 @@ function validate(id, pw) {
     //모든 조건을 통과시 참을 반환
     return true;
 }
-
 
 
 

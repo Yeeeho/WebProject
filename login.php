@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 //DB prep
 $host = 'localhost';
 $db_name = 'project';
@@ -20,16 +18,43 @@ try {
     exit;
 }
 
+//디버깅용 변수들 모음
 $id_temp = 'temp';
 $pw_temp = 'temp';
+$hs_temp = 666;
 
 header('Content-Type: application/json; charset=utf-8');
 
+//세션 시작
+session_start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//세션 확인
+if (isset($_POST['startButton']) || isset($_POST['checkSession'])) {
+    
+    if(isset($_SESSION['id'])) {
+        echo json_encode([
+            'message' => '이미 로그인되어 있습니다.',
+            'loginSuccess' => 'true',
+            'id' => $_SESSION['id'],
+            'hs' => $hs_temp 
+        ]);
+        exit;
+    }
+    else {
+        echo json_encode([
+            'message' => '로그인이 안되어있어요잉',
+            'loginSuccess' => 'false'
+        ]);
+        exit;
+    }
+}
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //로그인
     if(isset($_POST['loginButton']) && $_POST['loginButton'] == 1) {
+
         
+
         $id = $_POST['id'];
         $pw = $_POST['pw'];
         
@@ -43,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //$user는 정보가 있을 때는 배열이고, 없는 경우 false
             //false[i] 같은 형태가 되면 즉시 오류 발생
             
-            //
             if (!$user) {
                 echo json_encode([
                     'message' => '아이디가 존재하지 않습니다.',
@@ -53,11 +77,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
 
+            //Login Success
             if ($user['id'] == $id && $user['pw'] == $pw) {
+                //session 
+                $_SESSION['id'] = $user['id'];
                 echo json_encode([
                     'message' => '로그인에 성공했다.',
                     'loginSuccess' => 'true',
-                    'debugUser' => $user
+                    'debugUser' => $user['id']
                 ]);
                 exit;
             }
@@ -133,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['message' => '정보를 받지 못했습니다.']);
         exit;
     }
-}
+// }
 
 echo json_encode(['message' => '유효한 전송 방식이 아닙니다.']);
 exit;
@@ -153,7 +180,7 @@ exit;
 //         window.addEventListener('DOMContentLoaded', function() {
 //             gameStart();    
 //         })
-//     </script>";
+//     </scrip>";
 //     $_SESSION['game_start'] = false;
 // }
 

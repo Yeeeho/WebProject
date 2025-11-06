@@ -18,6 +18,7 @@ try {
     exit;
 }
 
+//제이손을 위한 헤더설정
 header('Content-Type: application/json; charset=utf-8');
 
 if(isset($_POST['confirmButton_gameover']) && $_POST['confirmButton_gameover']) {

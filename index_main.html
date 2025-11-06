@@ -19,9 +19,11 @@
             <img src="Images/DoomLogo.png">
         </div>
 
+        <!-- 로그인시 유저 확인 -->
+        <h3 id="message_main">안녕</h3>
+
         <!-- 중앙화면 -->
         <div class="center_window">
-
             <!-- 로그인화면 -->
             <div class="login">
 
@@ -59,19 +61,16 @@
 
             </div>
 
-            <div class="settings">
-                <h2>SETTINGS</h2>
-            </div>
-
         </div>
 
         <!-- 시작버튼 -->
-        <button class="startButton">PLAY</button>
+        <button class="startButton" name="startButton">PLAY</button>
 
         <!-- 사이드바 -->
 
         <div class="leaderboard box">
             <h2>명예의 전당</h2>
+            <hr class="hr_big">
             <table width="100%" id = "lb_table" class="sb_table">
                 <tr><td>1st</td><td>username</td><td>score</td></tr>
                 <tr><td>2nd</td><td></td><td></td></tr>
@@ -81,8 +80,6 @@
                 <tr><td>6th</td><td></td><td></td></tr>
                 <tr><td>7th</td><td></td><td></td></tr>
                 <tr><td>8th</td><td></td><td></td></tr>
-                <tr><td>9th</td><td></td><td></td></tr>
-                <tr><td>10th</td><td></td><td></td></tr>
             </table>
         </div>
 
@@ -102,19 +99,28 @@
             </table> 
         </div>  
 
-        <div class="notice box box">
+        <div class="notice box">
             <h2>공지사항</h2>
             <div text-align="left">
                 <p>content</p>
             </div>
         </div>
 
-        <div class="bulletin_board box">
-            <h2>자유게시판</h2>
+        <div class="misc_board box">
+            <h2>프로필</h2><br>
+            <h3 style="display:none" id="profile_id">아이디</h3><br>
+            <h3 style="display:none" id="profile_hs">My Hi_score</h3>
+            <button id="logout" name="logoutButton">로그아웃</button>
+        </div>
+
+        <div class="site_card">
+            <a href="https://github.com/Yeeeho" target="blank">
+                <img src="images/github_icon.png">
+            </a>
         </div>
 
         
-
+        
         <canvas id="gameCanvas"></canvas>
     </div>
         
@@ -122,36 +128,13 @@
 
         
     <footer>
-        <p>© 2025 JUMPGAME. All rights reserved.</p>&nbsp
+        <!-- <p>© 2025 JUMPGAME. All rights reserved.</p>&nbsp
         <p>Contact: 01012341234</p>&nbsp
-        <p>Address: 어딘가</p>
+        <p>Address: 어딘가</p> -->
     </footer>
     <script src="JumpGame_build/Build/JumpGame_build.loader.js"></script>
     <script>
     isLoggedIn = false;
-    document.querySelector('.startButton').addEventListener('click', function() {
-
-        if (isLoggedIn == false) {
-            return;
-        } 
-
-        createUnityInstance(document.querySelector("#gameCanvas"), {
-        dataUrl: "JumpGame_build/Build/JumpGame_build.data",
-        frameworkUrl: "JumpGame_build/Build/JumpGame_build.framework.js",
-        codeUrl: "JumpGame_build/Build/JumpGame_build.wasm",
-        streamingAssetsUrl: "StreamingAssets", // StreamingAssets가 있다면 이것도 경로 수정
-        companyName: "Yihos",
-        productName: "Yiho",
-        productVersion: "1.0",
-        }).then((unityInstance) => {
-            // 게임 로딩 완료 후 실행할 코드 (선택 사항)
-            gameOver(unityInstance);
-
-        }).catch((message) => {
-        console.error(message);
-        });
-    });
-
     </script>
 </body>
 </html>
