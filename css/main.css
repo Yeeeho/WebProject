@@ -257,7 +257,6 @@ body {
     height: 30px;
 }
 
-
 .box {
     border-radius: 4px;
     padding-top: 10px;
@@ -300,6 +299,11 @@ body {
     height: 400px;
 }
 
+#dl_table {
+    width:90%;
+    text-align:left;
+    margin-left:10px;
+}
 .notice {
     position: absolute;
     top: 20px;
@@ -320,7 +324,7 @@ body {
     position:absolute;
     width: 90px;
     height: 90px;
-    top:750px;
+    top:85%;
     right: 30px;
 }
 

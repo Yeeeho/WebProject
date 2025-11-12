@@ -6,6 +6,7 @@
     <title>JUMPGAME</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="js/js.js" defer="defer" type="text/javascript"></script>
+    <script src="js/main.js" defer="defer" type="text/javascript"></script>
 </head>
 <body>
     <div class="uiContainer">
@@ -26,7 +27,7 @@
         <div class="center_window">
             <!-- 로그인화면 -->
             <div class="login">
-
+                <h2>LOGIN</h2>
                 <form method="post"  action="login.php" id="loginForm">
                     <input type="text" placeholder="아이디를 입력하십시오." name="id" class="inputBox"><br>
                     <input type="password" placeholder="비밀번호도 입력하십시오." name="pw" class="inputBox">
@@ -38,7 +39,7 @@
 
             <!-- 회원가입화면 -->
             <div class="signup">
-
+                <h2>SIGNUP</h2>
                 <form method="post" action="login.php" id=signupForm name="signupForm">
                     <input type="text" placeholder="사용할 아이디를 입력하십시오." name="id_signup" class="inputBox"><br>
                     <input type="password" placeholder="사용할 비밀번호를 입력하십시오." name="pw_signup" class="inputBox"><br>
@@ -49,12 +50,12 @@
 
             <!-- 게임오버화면 -->
             <div class="gameover">
-                <br>
-                <h2>GAME OVER</h2><br>
-                <h2 style="display : inline">점수: </h2><h2 style="display:inline" id="score_gameover">score</h2>
-                <h2></h2><br><br>
-                <h4>당신은 죽기 전에 이런 말을 남깁니다...</h4>
-                <form method="post" action="login.php" id="gameoverForm">
+                <form method="post" action="ranking.php" id="gameoverForm">
+                    <br>
+                    <h2>GAME OVER</h2><br>
+                    <h2 style="display : inline">점수: </h2><h2 style="display:inline" id="score_gameover">score</h2>
+                    <h2></h2><br><br>
+                    <h4>당신은 죽기 전에 이런 말을 남깁니다...</h4>
                     <input type="text" name="dyingMessage" class="inputBox inputBox_dying">
                     <button class="confirmButton_gameover" type="submit" name="confirmButton_gameover">편안히 잠들다</button>
                 </form>
@@ -85,17 +86,17 @@
 
         <div class="death_log box">
             <h2>단말마들</h2>
-            <table width="100%" class="sb_table">
+            <table width="100%" id="dl_table" class="sb_table">
                 <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
-                <tr><td>message</td></tr>
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+                <tr><td></td></tr>
             </table> 
         </div>  
 

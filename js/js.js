@@ -193,6 +193,10 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
                 uic.fadeOutWindow(login_window);
                 uic.fadeOutWindow(center_window);
                 uic.showWindow(startButton)
+                profile_id.textContent = "사용자: " + data.id;
+                profile_id.style.display = 'block';
+                profile_hs.textContent = "HISCORE: " + data.hs;
+                profile_hs.style.display = 'block';
                 isLoggedIn = true;
             }
         })
@@ -202,10 +206,10 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
     });
 });
 
-//페이지가 로드될때 세션을 검사하는 함수
+//세션을 검사하는 함수
 function checkSession() {
     let formData = new FormData();
-    formData.append('checkSession','true') 
+    formData.append('checkSession','true'); 
 
     fetch('login.php', {
         method: 'POST',
@@ -237,6 +241,7 @@ logoutButton.addEventListener('click', function(e) {
     .then(res => res.json())
     .then(data => {
         alert(data.message);
+        location.href = 'index_main';
     })
     .catch(err => {
         alert(err);
@@ -286,13 +291,14 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
 
 });
 
-//다잉메시지와 점수 submit
+//게임오버 버튼 이벤트리스너-> 다잉메시지와 점수 submit
 document.querySelector('.confirmButton_gameover').addEventListener('click', function(e) {
 
     e.preventDefault();
 
     let formData = new FormData(document.querySelector('#gameoverForm'));
     formData.append('confirmButton_gameover', '1');
+    formData.append('score_gameover', window.gameScore);
 
     fetch('ranking.php', {
         method: 'POST',
@@ -300,7 +306,8 @@ document.querySelector('.confirmButton_gameover').addEventListener('click', func
     })
     .then(res => res.json())
     .then(data => {
-        console.log("다잉메시지: " + data.message);
+        alert(data.message);
+        // console.log("다잉메시지: " + data.d_message);
         uic.fadeOutWindow(gameover_window);
         uic.fadeOutWindow(center_window);
         uic.fadeInWindow(startButton);
@@ -309,9 +316,11 @@ document.querySelector('.confirmButton_gameover').addEventListener('click', func
         alert(err);
     })
 
+    loadPage(); //update page
+
 });
 
-//게임오버 이벤트리스너(jslib에서 가져옴) 함수
+//게임오버 감지 함수(jslib에서 가져옴)
 function gameOver(unityInstance) {
     document.addEventListener("unityGameStatus", function() {
     
@@ -366,7 +375,6 @@ function validate(id, pw) {
             return false;
         }
     }
-
     if (pw.length > 20 || pw.length < 10) {
         alert("비밀번호는 10자 이상 20자 이하로 작성해야 합니다.")
         return false;
