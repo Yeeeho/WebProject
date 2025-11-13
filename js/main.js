@@ -1,7 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function(e) {
     loadPage();
-    
 })
 
 //page loader function
@@ -30,9 +29,19 @@ function loadPage() {
         }
         //데스로그
         for(i=0; i<10; i++) {
+            if(data.users_rc[i] == null) break;
             td = dl_table.querySelector(`tr:nth-child(${i+1}) td`);
             td.textContent = data.users_rc[i] + ":" + "\"" + data.d_messages[i] +"\"";
         }
     
     })
+}
+
+//send message to unity
+function unitySpriteSelect(unityInstance, index) {
+    unityInstance.SendMessage(
+        'Player', //name of the game object
+        'SpriteSelect', // name of the function
+        index // value to send
+    );
 }

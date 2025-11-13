@@ -75,9 +75,9 @@ class UiController {
     }
 
     slideWindowsOut() {
-        uic.slide(leaderboard, 'x', -300);
-        uic.slide(death_log, 'x', -300);
-        uic.slide(notice, 'x', 300);
+        uic.slide(leaderboard, 'x', 300);
+        uic.slide(death_log, 'y', 300);
+        uic.slide(notice, 'x', -300);
         uic.slide(misc_board, 'x', 300);
         uic.slide(site_card, 'x', 300);
         uic.slide(logo_main, 'y', -300);
@@ -85,7 +85,7 @@ class UiController {
 
     slideWindowsIn() {
         uic.slide(leaderboard, 'x', 0);
-        uic.slide(death_log, 'x', 0);
+        uic.slide(death_log, 'y', 0);
         uic.slide(notice, 'x', 0);
         uic.slide(misc_board, 'x', 0);
         uic.slide(site_card, 'x', 0);
@@ -130,24 +130,7 @@ startButton.addEventListener('click', function() {
 
 });
 
-//게임 시작 함수
-function startGame() {
-    createUnityInstance(document.querySelector("#gameCanvas"), {
-    dataUrl: "JumpGame_build/Build/JumpGame_build.data",
-    frameworkUrl: "JumpGame_build/Build/JumpGame_build.framework.js",
-    codeUrl: "JumpGame_build/Build/JumpGame_build.wasm",
-    streamingAssetsUrl: "StreamingAssets", // StreamingAssets가 있다면 이것도 경로 수정
-    companyName: "Yihos",
-    productName: "Yiho",
-    productVersion: "1.0",
-    }).then((unityInstance) => {
-        // 게임 로딩 완료 후 실행할 코드 (선택 사항)
-        gameOver(unityInstance);
 
-    }).catch((message) => {
-    console.error(message);
-    });
-}
 
 // 회원가입 동작
 document.querySelector('.signupButton').addEventListener('click', function() {
@@ -288,7 +271,6 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
         alert(err);
         console.log(err);
     });
-
 });
 
 //게임오버 버튼 이벤트리스너-> 다잉메시지와 점수 submit
@@ -319,28 +301,6 @@ document.querySelector('.confirmButton_gameover').addEventListener('click', func
     loadPage(); //update page
 
 });
-
-//게임오버 감지 함수(jslib에서 가져옴)
-function gameOver(unityInstance) {
-    document.addEventListener("unityGameStatus", function() {
-    
-        console.log("eventListener -> unityGameStatus read");
-        if (window.isGameOver == true) {
-            console.log("eventListener -> Game Over");
-            unityInstance.Quit();
-            uic.slideWindowsIn();
-            //게임오버 화면 출력
-            uic.fadeInWindow(center_window);
-            uic.fadeInWindow(gameover_window);
-            //현재점수 출력
-            let score_go = document.querySelector('#score_gameover');
-            score_go.textContent = window.gameScore;
-
-
-            window.isGameOver == false;
-        }
-    });
-}
 
 //유효성 검사 함수
 function validate(id, pw) {
@@ -384,6 +344,46 @@ function validate(id, pw) {
     return true;
 }
 
+//게임 시작 함수
+function startGame() {
+    createUnityInstance(document.querySelector("#gameCanvas"), {
+    dataUrl: "JumpGame_build/Build/JumpGame_build.data",
+    frameworkUrl: "JumpGame_build/Build/JumpGame_build.framework.js",
+    codeUrl: "JumpGame_build/Build/JumpGame_build.wasm",
+    streamingAssetsUrl: "StreamingAssets", // StreamingAssets가 있다면 이것도 경로 수정
+    companyName: "Yihos",
+    productName: "Yiho",
+    productVersion: "1.0",
+    }).then((unityInstance) => {
+        // 게임 로딩 완료 후 실행할 코드 (선택 사항)
+        unitySpriteSelect(unityInstance, 1);
+        gameOver(unityInstance);
+
+    }).catch((message) => {
+    console.error(message);
+    });
+}
+
+//게임오버 감지 함수(jslib에서 가져옴)
+function gameOver(unityInstance) {
+    document.addEventListener("unityGameStatus", function() {
+    
+        console.log("eventListener -> unityGameStatus read");
+        if (window.isGameOver == true) {
+            console.log("eventListener -> Game Over");
+            unityInstance.Quit();
+            uic.slideWindowsIn();
+            //게임오버 화면 출력
+            uic.fadeInWindow(center_window);
+            uic.fadeInWindow(gameover_window);
+            //현재점수 출력
+            let score_go = document.querySelector('#score_gameover');
+            score_go.textContent = window.gameScore;
+
+            window.isGameOver == false;
+        }
+    });
+}
 
 
 
