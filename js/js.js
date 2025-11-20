@@ -1,9 +1,9 @@
-// let prevWindow = null;
-let currentWindow = null;
 
 //js에서 로그인 여부를 확인하기 위한 플래그 변수
 let isLoggedIn = false;
 
+//난 마스크야
+const mask = document.querySelector('#mask');
 //센터 윈도우 객체화
 const center_window = document.querySelector('.center_window');
 const login_window = document.querySelector('.login');
@@ -11,22 +11,41 @@ const signup_window = document.querySelector('.signup');
 const gameover_window = document.querySelector('.gameover');
 const startButton = document.querySelector('.startButton');
 const logoutButton = document.querySelector('#logout');
+//기타 윈도우
+const shop_window = document.querySelector('#shop_window');
 
 //사이드바 윈도우 객체화
 const leaderboard = document.querySelector('.leaderboard');
 const death_log = document.querySelector('.death_log');
 const notice = document.querySelector('.notice');
 const misc_board = document.querySelector('.misc_board');
+const misc_board2 = document.querySelector('#misc_board2');
 const site_card = document.querySelector('.site_card');
+
+//버튼
+const shop_icons = shop_window.querySelectorAll('img');
+const shop_buy = document.querySelector('#shop_buy');
+const profile_check = document.querySelector('#profile_check');
+const sprite_button_left = document.querySelector('#sprite_button_left');
+const sprite_button_right = document.querySelector('#sprite_button_right');
 //동적 할당 텍스트
 const profile_id = document.querySelector('#profile_id');
 const profile_hs = document.querySelector('#profile_hs');
+const profile_cr = document.querySelector('#profile_cr');
 
 //로고 객체화
 const logo_main = document.querySelector('.logo_main');
-
 //기타 친구들
 const message1 = document.querySelector('#message_main');
+//난 참고용 배열이야
+let shop_iconref = [];
+//임시 변수
+let currentcr = null;
+let currentWindow = null;
+//현재 스프라이트를 저장할 변수
+let current_sprite = 'melundago';
+//소유한 스프라이트 배열
+let user_sprites = []; user_sprites[0] = 'melundago';
 
 //Ui 동작 클래스
 class UiController {
@@ -77,8 +96,8 @@ class UiController {
     slideWindowsOut() {
         uic.slide(leaderboard, 'x', 300);
         uic.slide(death_log, 'y', 300);
-        uic.slide(notice, 'x', -300);
-        uic.slide(misc_board, 'x', 300);
+        uic.slide(notice, 'x', 300);
+        uic.slide(misc_board, 'x', -300);
         uic.slide(site_card, 'x', 300);
         uic.slide(logo_main, 'y', -300);
     }
@@ -91,13 +110,9 @@ class UiController {
         uic.slide(site_card, 'x', 0);
         uic.slide(logo_main, 'y', 0);
     }
-
 }
 
 const uic = new UiController();
-
-//페이지 로드후 실행되는 부분
-checkSession();
 
 // 시작 버튼 클릭
 startButton.addEventListener('click', function() {
@@ -105,7 +120,7 @@ startButton.addEventListener('click', function() {
     const formData = new FormData();
     formData.append('startButton', 'true');
 
-    fetch('login.php', {
+    fetch('php/login.php', {
         method: 'POST',
         body: formData
     })
@@ -126,11 +141,7 @@ startButton.addEventListener('click', function() {
             startGame();
         }
     })
-
-
 });
-
-
 
 // 회원가입 동작
 document.querySelector('.signupButton').addEventListener('click', function() {
@@ -162,7 +173,7 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
     let formData = new FormData(document.querySelector('#loginForm'));
     formData.append('loginButton','1');
 
-    fetch('login.php', {
+    fetch('php/login.php', {
         method: 'POST',
         body: formData
     }) 
@@ -176,11 +187,8 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
                 uic.fadeOutWindow(login_window);
                 uic.fadeOutWindow(center_window);
                 uic.showWindow(startButton)
-                profile_id.textContent = "사용자: " + data.id;
-                profile_id.style.display = 'block';
-                profile_hs.textContent = "HISCORE: " + data.hs;
-                profile_hs.style.display = 'block';
                 isLoggedIn = true;
+                loadSidebars(data);
             }
         })
     .catch(err => {
@@ -189,35 +197,13 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
     });
 });
 
-//세션을 검사하는 함수
-function checkSession() {
-    let formData = new FormData();
-    formData.append('checkSession','true'); 
-
-    fetch('login.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data.message);
-        if(data.loginSuccess == 'true') {
-            isLoggedIn = true;
-            profile_id.textContent = "사용자: " + data.id;
-            profile_id.style.display = 'block';
-            profile_hs.textContent = "HISCORE: " + data.hs;
-            profile_hs.style.display = 'block';
-        }
-    });
-}
-
 //로그아웃
 logoutButton.addEventListener('click', function(e) {
 
     const formData = new FormData();
     formData.append('logoutButton', 'true');
 
-    fetch('logout.php', {
+    fetch('php/logout.php', {
         method: 'POST',
         body: formData
     })
@@ -249,7 +235,7 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
     let formData = new FormData(document.querySelector('#signupForm'));
     formData.append('confirmButton_signup','1');
 
-    fetch('login.php', {
+    fetch('php/login.php', {
         method: 'POST',
         body: formData
     })
@@ -264,7 +250,6 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
             document.getElementById('loginForm').pw.value = "";
             document.getElementById('signupForm').id_signup.value = "";
             document.getElementById('signupForm').pw_signup.value = "";
-
         }
     })
     .catch(err => {
@@ -273,34 +258,6 @@ document.querySelector('.confirmButton_signup').addEventListener('click', functi
     });
 });
 
-//게임오버 버튼 이벤트리스너-> 다잉메시지와 점수 submit
-document.querySelector('.confirmButton_gameover').addEventListener('click', function(e) {
-
-    e.preventDefault();
-
-    let formData = new FormData(document.querySelector('#gameoverForm'));
-    formData.append('confirmButton_gameover', '1');
-    formData.append('score_gameover', window.gameScore);
-
-    fetch('ranking.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert(data.message);
-        // console.log("다잉메시지: " + data.d_message);
-        uic.fadeOutWindow(gameover_window);
-        uic.fadeOutWindow(center_window);
-        uic.fadeInWindow(startButton);
-    })
-    .catch(err => {
-        alert(err);
-    })
-
-    loadPage(); //update page
-
-});
 
 //유효성 검사 함수
 function validate(id, pw) {
@@ -344,46 +301,6 @@ function validate(id, pw) {
     return true;
 }
 
-//게임 시작 함수
-function startGame() {
-    createUnityInstance(document.querySelector("#gameCanvas"), {
-    dataUrl: "JumpGame_build/Build/JumpGame_build.data",
-    frameworkUrl: "JumpGame_build/Build/JumpGame_build.framework.js",
-    codeUrl: "JumpGame_build/Build/JumpGame_build.wasm",
-    streamingAssetsUrl: "StreamingAssets", // StreamingAssets가 있다면 이것도 경로 수정
-    companyName: "Yihos",
-    productName: "Yiho",
-    productVersion: "1.0",
-    }).then((unityInstance) => {
-        // 게임 로딩 완료 후 실행할 코드 (선택 사항)
-        unitySpriteSelect(unityInstance, 1);
-        gameOver(unityInstance);
-
-    }).catch((message) => {
-    console.error(message);
-    });
-}
-
-//게임오버 감지 함수(jslib에서 가져옴)
-function gameOver(unityInstance) {
-    document.addEventListener("unityGameStatus", function() {
-    
-        console.log("eventListener -> unityGameStatus read");
-        if (window.isGameOver == true) {
-            console.log("eventListener -> Game Over");
-            unityInstance.Quit();
-            uic.slideWindowsIn();
-            //게임오버 화면 출력
-            uic.fadeInWindow(center_window);
-            uic.fadeInWindow(gameover_window);
-            //현재점수 출력
-            let score_go = document.querySelector('#score_gameover');
-            score_go.textContent = window.gameScore;
-
-            window.isGameOver == false;
-        }
-    });
-}
 
 
 

@@ -1,26 +1,12 @@
 <?php
-//로그인과 회원가입용 php
-//DB prep
-$host = 'localhost';
-$db_name = 'project';
-$db_user = 'root';
-$db_pass = null;
-$charset = 'utf8mb4';
+include('dbconn.php');
 
-$dsn = "mysql:host=$host; dbname=$db_name; charset=$charset";
-$options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-
-try {
-    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    //PDO 클래스에 정보를 전달하여 DB연결 객체를 생성
-} catch (\PDOException $e) {
-    echo json_encode(['message' => '데이터베이스에 연결할 수 없습니다.']);
-    exit;
-}
-header('Content-Type: application/json; charset=utf-8');
 //세션 시작
 session_start();
+//헤더설정 
+header('Content-Type: application/json; charset=utf-8');
 
+//로그인과 회원가입용 php
 //디버깅용 변수들 모음
 $id_temp = 'temp';
 $pw_temp = 'temp';
@@ -32,7 +18,7 @@ if (isset($_POST['startButton']) || isset($_POST['checkSession'])) {
     
     if(isset($_SESSION['id'])) {
 
-        $stmt = $pdo ->prepare("SELECT hi_score FROM user WHERE id = ?");
+        $stmt = $pdo ->prepare("SELECT hi_score, credit FROM user WHERE id = ?");
         $stmt ->execute([$_SESSION['id']]);
         $user = $stmt ->fetch();
 
@@ -40,7 +26,8 @@ if (isset($_POST['startButton']) || isset($_POST['checkSession'])) {
             'message' => '이미 로그인되어 있습니다.',
             'loginSuccess' => 'true',
             'id' => $_SESSION['id'],
-            'hs' => $user['hi_score']
+            'hs' => $user['hi_score'],
+            'cr' => $user['credit']
         ]);
         exit;
     }
@@ -64,7 +51,7 @@ if(isset($_POST['loginButton']) && $_POST['loginButton'] == 1) {
     if ($id != '' && $pw != '') {
     
         //데이터베이스에서 정보 대조
-        $stmt = $pdo -> prepare("SELECT id, pw, hi_score FROM user WHERE id = ?");
+        $stmt = $pdo -> prepare("SELECT id, pw, hi_score, credit FROM user WHERE id = ?");
         $stmt -> execute([$id]);
         $user = $stmt -> fetch(); 
         //$user는 정보가 있을 때는 배열이고, 없는 경우 false
@@ -91,7 +78,8 @@ if(isset($_POST['loginButton']) && $_POST['loginButton'] == 1) {
                 'message' => '로그인에 성공했다.',
                 'loginSuccess' => 'true',
                 'id' => $_SESSION['id'],
-                'hs' => $user['hi_score']
+                'hs' => $user['hi_score'],
+                'cr' => $user['credit']
             ]);
             exit;
         }

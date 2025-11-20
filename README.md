@@ -1,11 +1,13 @@
 This is my school web project.
 
-You need to run this in server(I used WAMP).
+Version 0.6 alpha
 
-I am fool.
-
-Currently working on.
-The core login/ signup mechanism is done.(security not considered) So that will work on basic level. 
+Server needed (I used wamp)
 
 Database schema is at db_schema folder so you can actually try out this.
-Unity game will be pushed someday
+
+You have to Web-build the same version game at the Webproject_game to fully run this.
+Directory to build should be root and folder name should be 'JumpGame_build'
+
+
+

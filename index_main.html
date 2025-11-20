@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JUMPGAME</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/shop.css">
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
     <script src="js/js.js" defer="defer" type="text/javascript"></script>
     <script src="js/main.js" defer="defer" type="text/javascript"></script>
     <script src="js/game.js" defer="defer" type="text/javascript"></script>
+    <script src="js/shop.js" defer="defer" type="text/javascript"></script>
+    <script src="js/profile.js" defer="defer" type="text/javascript"></script>
 </head>
 <body>
     <div class="uiContainer">
 
+        <div id="mask"></div>
         <!-- 로고 -->
         <div class="logo_main">
             <img src="Images/isaygames_logo.png">
@@ -21,8 +26,8 @@
             <img src="Images/DoomLogo.png">
         </div>
 
-        <!-- 로그인시 유저 확인 -->
-        <h3 id="message_main">안녕</h3>
+        <!-- 시작버튼 -->
+        <button class="startButton" name="startButton">PLAY</button>
 
         <!-- 중앙화면 -->
         <div class="center_window">
@@ -34,7 +39,7 @@
                     <input type="password" placeholder="비밀번호도 입력하십시오." name="pw" class="inputBox">
                     
                     <button class="loginButton" type="submit" name="loginButton" value="1">로그인</button>
-                    <button class="signupButton" type="button">회원가입</button>
+                    <button class="signupButton buttonC" type="button">회원가입</button>
                 </form>
             </div>
 
@@ -60,16 +65,11 @@
                     <input type="text" name="dyingMessage" class="inputBox inputBox_dying">
                     <button class="confirmButton_gameover" type="submit" name="confirmButton_gameover">편안히 잠들다</button>
                 </form>
-
             </div>
-
         </div>
 
-        <!-- 시작버튼 -->
-        <button class="startButton" name="startButton">PLAY</button>
 
         <!-- 사이드바 -->
-
         <div class="leaderboard box">
             <h2>명예의 전당</h2>
             <hr class="hr_big">
@@ -104,16 +104,72 @@
 
         <div class="notice box">
             <h2>공지사항</h2>
+            <button id="logout" name="logoutButton" class="button1">로그아웃</button>
             <div text-align="left">
                 <p>content</p>
             </div>
         </div>
 
+        <div id="misc_board2" class="box">
+            <h2 class="warning">어서오세요!</h2><br>
+            <img src="images/sprite_button_left.png" id="sprite_button_left" class="sprite_button">
+            <img src="images/sprite_button_right.png" id="sprite_button_right" class="sprite_button">
+            <canvas id="us_canvas" width="150px" height="150px">
+
+            </canvas>
+            <h2 style="display:none" id="profile_id"></h2><br>
+            <h3 id="profile_hs"></h3><br>
+            <h3 id="profile_cr"></h3>
+            <button id="profile_check" class="button1">프로필 상세</button>
+            
+        </div>
+
         <div class="misc_board box">
-            <h2>프로필</h2><br>
-            <h3 style="display:none" id="profile_id">아이디</h3><br>
-            <h3 style="display:none" id="profile_hs">My Hi_score</h3>
-            <button id="logout" name="logoutButton">로그아웃</button>
+            <h3>더 많은 스프라이트!</h3>
+            <a href="#" id="shop_button"><img src="images/usprites.png"></a>
+            <h3 class="warning"></h3>
+        </div>
+
+        <div id="shop_window" class="box">
+            <div class="card">
+                <div class="icon"><img src="sprites/ultang.png"></div>
+                <p>price</p>
+            </div>
+            <div class="card">
+                <div class="icon"><img src="sprites/shungjwak.png"></div>
+                <p>price</p>
+            </div>
+            <div class="card">
+                <div class="icon"><img src="sprites/elena.png"></div>
+                <p>price</p>
+            </div>
+            <div class="card">
+                <div class="icon"><img src="sprites/risty.png"></div>
+                <p>price</p>
+            </div>
+            <div class="card">
+                <div class="icon"></div>
+                <p></p>
+            </div>
+            <div class="card">
+                <div class="icon"></div>
+                <p></p>
+            </div>
+            <div class="card">
+                <div class="icon"></div>
+                <p></p>
+            </div>
+            <div class="card">
+                <div class="icon"></div>
+                <p></p>
+            </div>
+            <h3 class="warning">인플레이션이 오기 전에 사세요!</h3>
+            <button id="shop_buy" class="buttonC">구매</button>
+            <button id="shop_exit" class="buttonC">취소</button>
+            
+        </div>
+        
+        <div id="profile_window" class="box">
         </div>
 
         <div class="site_card">

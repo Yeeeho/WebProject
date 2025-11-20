@@ -1,29 +1,11 @@
 <?php
-//로그인과 회원가입용 php
-//DB prep
-$host = 'localhost';
-$db_name = 'project';
-$db_user = 'root';
-$db_pass = null;
-$charset = 'utf8mb4';
+include('dbconn.php');
 
-$dsn = "mysql:host=$host; dbname=$db_name; charset=$charset";
-$options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-
-try {
-    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    //PDO 클래스에 정보를 전달하여 DB연결 객체를 생성
-} catch (\PDOException $e) {
-    echo json_encode(['message' => '데이터베이스에 연결할 수 없습니다.']);
-    exit;
-}
 header('Content-Type: application/json; charset=utf-8');
 //세션 시작
 session_start();
 
-
-
-if($_POST['loadPage'] == 'true') {
+if(isset($_POST['loadPage']) && $_POST['loadPage'] == 'true') {
     
     //this time, fetch data for leaderboard
     $hi_scores = []; $users_hs = [];
@@ -51,13 +33,28 @@ if($_POST['loadPage'] == 'true') {
         $index++;
     } $index = 0;
 
+    //now, fetch data for shop_icons
+
+    $sql = "SELECT item_name, idx FROM item_dic ORDER BY idx";
+    $stmt = $pdo ->prepare($sql);
+    $stmt ->execute();
+    while($data = $stmt ->fetch()) {
+        $item_names[$index] = $data['item_name'];
+        $shop_idxs[$index] = $data['idx'];
+        $index++;
+    } $index = 0;
+
     echo json_encode([
+        //메인페이지
         'message' => '페이지를 db와 연동하기 시작',
         'hi_scores' => $hi_scores,
         'users' => $users_hs,
         'users_rc' => $users_rc,
         'd_messages' => $d_messages,
-        'timestamps' => $timestamps
+        'timestamps' => $timestamps,
+        //상점
+        'item_names' => $item_names,
+        'shop_idx' => $shop_idxs
     ]);
     exit;
 }

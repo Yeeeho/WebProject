@@ -1,0 +1,40 @@
+/* 프로필창 */
+#misc_board2 {
+    position:absolute;
+    text-align:center;
+    top: 20px;
+    left: 20px;
+    width:200px;
+    height: 400px;
+}
+#profile_check {
+    display:none;
+    margin-top: 20px;
+    width: 160px;
+    height: 40px;
+    background-color:rgb(40, 180, 190);
+    color: rgb(235,235,210);
+    box-shadow: 0 0 10px #2f2f2f;
+}
+#misc_board2 .warning {
+    width:200px;
+    position:absolute;
+    top:240px;
+    left:50%;
+    transform:translateX(-50%);
+}
+.sprite_button {
+    position:absolute;
+    opacity:0.2;
+}
+.sprite_button:hover {
+    opacity:1;
+}
+#sprite_button_left {
+    left:20px;
+    top:95px;
+}
+#sprite_button_right {
+    right:20px;
+    top:95px;
+}

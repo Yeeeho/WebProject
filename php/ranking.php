@@ -1,23 +1,6 @@
 <?php
+include('dbconn.php');
 
-//DB prep
-$host = 'localhost';
-$db_name = 'project';
-$db_user = 'root';
-$db_pass = null;
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host; dbname=$db_name; charset=$charset";
-$options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-
-
-try {
-    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    //PDO 클래스에 정보를 전달하여 DB연결 객체를 생성
-} catch (\PDOException $e) {
-    echo json_encode(['message' => '데이터베이스에 연결할 수 없습니다.']);
-    exit;
-}
 //제이손(사람이름아님)을 위한 헤더설정
 header('Content-Type: application/json; charset=utf-8');
 //세션시작으로 전역 세션변수를 냠냠함
@@ -39,29 +22,36 @@ if(isset($_POST['confirmButton_gameover']) && $_POST['confirmButton_gameover']) 
     $stmt = $pdo ->prepare($sql);
     $stmt ->execute([$_SESSION['id'], $score, $d_message]);
 
-    //db에서 hi_score를 불러옴
+    //user 테이블에 크레딧 추가
+    $sql = "UPDATE user SET credit = credit + ? WHERE id = ?";
+    $stmt = $pdo ->prepare($sql);
+    $stmt ->execute([$score, $_SESSION['id']]);
+
+    //db에서 hi_score 을 불러옴
     $stmt = $pdo ->prepare("SELECT hi_score FROM user WHERE id = ?");
     $stmt ->execute([$_SESSION['id']]);
     $user = $stmt ->fetch();
     //$user['hi_score'] 가 없거나 $score 가 $user['hi_score'] 보다 높을 때 db로 점수를 보냄
-    if($user['hi_score'] = null || $score > $user['hi_score']) {
-
+    $isNewRecord = false;
+    if($user['hi_score'] == null || $score > $user['hi_score']) {
         $stmt = $pdo ->prepare("UPDATE user SET hi_score = ? WHERE id = ?");
         $stmt ->execute([$score, $_SESSION['id']]);
+        $isNewRecord = true;
+    }
+    //db에서 id, hi_score, credit 을 불러옴
+    $stmt = $pdo ->prepare("SELECT id, hi_score, credit FROM user WHERE id = ?");
+    $stmt ->execute([$_SESSION['id']]);
+    $user = $stmt ->fetch();
 
-        echo json_encode([
-            'message' => '최고 점수를 갱신함',
-            'd_message' => $d_message
-        ]);
-        exit;
-    }
-    else {
-        echo json_encode([
-            'message' => '점수 갱신 실패. 더 분발하십시오.',
-            'd_message' => $d_message
-        ]);
-        exit;
-    }
+    echo json_encode([
+        'isNewRecord' => $isNewRecord,
+        'd_message' => $d_message,
+        'id' => $user['id'],
+        'hs' => $user['hi_score'],
+        'cr' => $user['credit']
+    ]);
+    exit;
+
 }
 
 function debug() {
