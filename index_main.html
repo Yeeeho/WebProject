@@ -7,11 +7,13 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/shop.css">
     <link rel="stylesheet" type="text/css" href="css/profile.css">
-    <script src="js/js.js" defer="defer" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/public_board.css">
+    <script src="js/init.js" defer="defer" type="text/javascript"></script>
     <script src="js/main.js" defer="defer" type="text/javascript"></script>
     <script src="js/game.js" defer="defer" type="text/javascript"></script>
     <script src="js/shop.js" defer="defer" type="text/javascript"></script>
     <script src="js/profile.js" defer="defer" type="text/javascript"></script>
+    <script src="js/public_board.js" defer="defer" type="text/javascript"></script>
 </head>
 <body>
     <div class="uiContainer">
@@ -104,10 +106,52 @@
 
         <div class="notice box">
             <h2>공지사항</h2>
-            <button id="logout" name="logoutButton" class="button1">로그아웃</button>
-            <div text-align="left">
+            <div id="nb_box">
                 <p>content</p>
             </div>
+            <button id="pb_button" class="button1">게시판</button>
+        </div>
+        <!-- 게시판 메인 -->
+        <div id="pb_window" class="box">
+            <input type="text" id="pb_input" class="inputBox" placeholder="아이디를 입력하세요"><button id="pb_search" class="buttonC">검색</button>
+            <table>
+                <tr><td class="pb_id">아이디</td><td class="pb_title">제목</td><td class="pb_time">시간</td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+                <tr><td class="pb_id"></td><td class="pb_title"></td><td class="pb_time"></td></tr>
+
+            </table>
+            <button id="pb_back" class="buttonC">뒤로</button>
+            <button id="pb_write" class="buttonC">글쓰기</button>
+        </div>
+        <!-- 본문 -->
+        <div id="pb_read" class="box">
+            <h2 id="pb_read_title">제목</h2><br>
+            <div id="pb_read_sub">
+                <h3 id="pb_read_id">아이디</h3><h3>&nbsp;&nbsp;</h3><h3 id="pb_read_time">시간</h3>
+            </div>
+            <div id="pb_read_content">
+
+            </div>
+            <h3 class="warning"></h3>
+            <button id="pb_read_back" class="buttonC">뒤로</button>
+            <button id="pb_read_edit" class="buttonC">수정</button>
+            <button id="pb_read_delete" class="buttonC">삭제</button>
+        </div>
+
+        <!-- 글쓰기 -->
+        <div id="pb_post" class="box">
+            <input type="text" id="pb_post_title" class="inputBox" placeholder=" 제목을 입력하라이">
+            <textarea id="pb_post_content" class="inputBox" rows="15" maxlength="250"></textarea>
+            <button id="pb_post_back" class="buttonC">뒤로</button>
+            <button id="pb_post_confirm" class="buttonC">확인</button>
         </div>
 
         <div id="misc_board2" class="box">
@@ -121,7 +165,7 @@
             <h3 id="profile_hs"></h3><br>
             <h3 id="profile_cr"></h3>
             <button id="profile_check" class="button1">프로필 상세</button>
-            
+            <button id="logout" name="logoutButton" class="button1">로그아웃</button>
         </div>
 
         <div class="misc_board box">
@@ -131,6 +175,7 @@
         </div>
 
         <div id="shop_window" class="box">
+
             <div class="card">
                 <div class="icon"><img src="sprites/ultang.png"></div>
                 <p>price</p>
@@ -169,7 +214,11 @@
             
         </div>
         
-        <div id="profile_window" class="box">
+        <div id="profile_window" class="box"><br>
+            <h2 id="pwindow_id"></h2><br>
+            <h3 id="pwindow_hs"></h3><br>
+            <h3 id="pwindow_cr"></h3>
+            <button id="pwindow_back" class="buttonC">뒤로가기</button>
         </div>
 
         <div class="site_card">

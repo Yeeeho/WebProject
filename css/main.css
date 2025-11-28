@@ -342,14 +342,6 @@ body {
     height: 20px;
 }
 
-.notice {
-    position: absolute;
-    bottom: 200px;
-    right: 20px;
-    width: 200px;
-    height: 290px;
-}
-
 .misc_board {
     position: absolute;
     text-align:center;
@@ -366,7 +358,7 @@ body {
     position:absolute;
     width: 90px;
     height: 90px;
-    bottom:6%;
+    bottom:3%;
     right: 30px;
 }
 .site_card img {

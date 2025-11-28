@@ -13,6 +13,7 @@ function startGame() {
         // choose player sprite
         let sprite = spriteReader(current_sprite);
         unitySpriteSelect(unityInstance, sprite);
+        console.log(sprite);
         gameOver(unityInstance);
 
     }).catch((message) => {
@@ -27,6 +28,7 @@ function unitySpriteSelect(unityInstance, index) {
         'SpriteSelect', // name of the function
         index // value to send
     );
+    console.log(index);
 }
 
 //게임오버 감지 함수(jslib에서 가져옴)
@@ -78,7 +80,7 @@ document.querySelector('.confirmButton_gameover').addEventListener('click', asyn
         alert(err);
     })
 
-    loadPage(); //update page
+    await loadPage(); //update page
 });
 
 const SPRITE_MAP = {

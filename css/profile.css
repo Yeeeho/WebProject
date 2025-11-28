@@ -1,4 +1,5 @@
 /* 프로필창 */
+/* 사이드바 */
 #misc_board2 {
     position:absolute;
     text-align:center;
@@ -13,7 +14,7 @@
     width: 160px;
     height: 40px;
     background-color:rgb(40, 180, 190);
-    color: rgb(235,235,210);
+    color: rgb(235,250,250);
     box-shadow: 0 0 10px #2f2f2f;
 }
 #misc_board2 .warning {
@@ -37,4 +38,34 @@
 #sprite_button_right {
     right:20px;
     top:95px;
+}
+/* 상세 윈도우 */
+#profile_window {
+    display:none;
+    position:absolute;
+    top: 240px;
+    left: 50%;
+    transform:translateX(-50%);
+    width: 500px;
+    height: 400px;
+    background-color: rgba(40,130,150, 1);
+    z-index:4;
+}
+#pwindow_back {
+    position:absolute;
+    left: 20px;
+    bottom: 20px;
+    color: rgb(255, 160, 255);
+    background-color: #2f2f2f;
+    border: rgb(255, 160, 255) 3px solid;
+}
+#logout {
+    display:none;
+    position:absolute;
+    width: 100px;
+    right: 20px;
+    bottom: 20px;
+    color:rgb(255,160,255);
+    border: rgb(255,160,255) 3px solid;
+    background-color:#2f2f2f;
 }

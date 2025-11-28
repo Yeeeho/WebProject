@@ -11,27 +11,44 @@ const signup_window = document.querySelector('.signup');
 const gameover_window = document.querySelector('.gameover');
 const startButton = document.querySelector('.startButton');
 const logoutButton = document.querySelector('#logout');
-//기타 윈도우
-const shop_window = document.querySelector('#shop_window');
 
 //사이드바 윈도우 객체화
 const leaderboard = document.querySelector('.leaderboard');
 const death_log = document.querySelector('.death_log');
-const notice = document.querySelector('.notice');
 const misc_board = document.querySelector('.misc_board');
-const misc_board2 = document.querySelector('#misc_board2');
 const site_card = document.querySelector('.site_card');
 
-//버튼
+//공지사항/게시판
+const notice = document.querySelector('.notice');
+const pb_button = notice.querySelector('#pb_button');
+const pb_window = document.querySelector('#pb_window');
+const pb_back = pb_window.querySelector('#pb_back');
+const pb_write = document.querySelector('#pb_write');
+//공지사항-글쓰기
+const pb_post = document.querySelector('#pb_post');
+//공지사항-본문읽기
+const pb_read = document.querySelector('#pb_read');
+
+//상점 윈도우
+const shop_window = document.querySelector('#shop_window');
 const shop_icons = shop_window.querySelectorAll('img');
 const shop_buy = document.querySelector('#shop_buy');
+
+//프로필
+const misc_board2 = document.querySelector('#misc_board2');
 const profile_check = document.querySelector('#profile_check');
-const sprite_button_left = document.querySelector('#sprite_button_left');
-const sprite_button_right = document.querySelector('#sprite_button_right');
-//동적 할당 텍스트
 const profile_id = document.querySelector('#profile_id');
 const profile_hs = document.querySelector('#profile_hs');
 const profile_cr = document.querySelector('#profile_cr');
+const sprite_button_left = document.querySelector('#sprite_button_left');
+const sprite_button_right = document.querySelector('#sprite_button_right');
+//프로필 상세화면
+const profile_window = document.querySelector('#profile_window');
+const pwindow_back = document.querySelector('#pwindow_back');
+
+const pwindow_id = document.querySelector('#pwindow_id');
+const pwindow_hs = document.querySelector('#pwindow_hs');
+const pwindow_cr = document.querySelector('#pwindow_cr');
 
 //로고 객체화
 const logo_main = document.querySelector('.logo_main');
@@ -158,7 +175,7 @@ document.querySelector('.backButton_signup').addEventListener('click', function(
 
 //AJAX
 //로그인 
-document.querySelector('.loginButton').addEventListener('click', function(e) {
+document.querySelector('.loginButton').addEventListener('click', async function(e) {
     //기존 submit방식을 차단해서 새로고침 방지
     e.preventDefault(e);
 
@@ -173,7 +190,7 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
     let formData = new FormData(document.querySelector('#loginForm'));
     formData.append('loginButton','1');
 
-    fetch('php/login.php', {
+    await fetch('php/login.php', {
         method: 'POST',
         body: formData
     }) 
@@ -195,6 +212,8 @@ document.querySelector('.loginButton').addEventListener('click', function(e) {
         alert(err);
         console.log(err);
     });
+    
+    loadThings();
 });
 
 //로그아웃
