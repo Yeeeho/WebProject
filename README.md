@@ -1,6 +1,6 @@
 This is my school web project.
 
-Version 0.6 alpha
+Version 0.7 alpha
 
 Server needed (I used wamp)
 
